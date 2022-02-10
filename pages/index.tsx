@@ -4,6 +4,8 @@ import { BottomSheet } from 'react-spring-bottom-sheet'
 import { motion } from 'framer-motion'
 import { PushToTalkButton, BigTranscript, ErrorPanel } from "@speechly/react-ui"
 import { useSpeechContext } from "@speechly/react-client"
+import { useAtom } from "jotai"
+import { name, position } from "../store/globalState"
 import { CountCard, Variants } from '../components/CountCard'
 import { UserCard } from '../components/UserCard'
 import { Filters } from '../components/Filters'
@@ -26,6 +28,8 @@ export interface UserData {
 
 
 const Home: NextPage = () => {
+  const [userName, setUserName] = useAtom(name)
+  const [userPosition, setUserPosition] = useAtom(position)
   const { segment } = useSpeechContext()
   const [totalEmployee, setTotalEmployee] = useState<number>(0)
   const [vaccinated, setVaccinated] = useState<number>(0)
@@ -53,6 +57,11 @@ const Home: NextPage = () => {
       if(segment.intent.intent === "unvaccinated") setActiveFilter(ActiveState.UNVACCINATED)
       if(segment.intent.intent === "newUser") setOpenBottomSheet(true)
       if(segment.intent.intent === "removeForm") dismissBottomSheet()
+      if(segment.intent.intent === "name")  setUserName(segment.entities[0]?.value)
+      if(segment.intent.intent === "position")  setUserPosition(segment.entities[0]?.value)
+      if(segment.isFinal) {
+        console.log(segment)
+      }
     }
   }, [segment])
 

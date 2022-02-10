@@ -12,6 +12,7 @@
     "@speechly/react-client": "^1.2.1",
     "@speechly/react-ui": "^2.4.2",
     "framer-motion": "^6.2.4",
+    "jotai": "^1.5.3",
     "next": "12.0.10",
     "react": "17.0.2",
     "react-dom": "17.0.2",
