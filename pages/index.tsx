@@ -2,6 +2,8 @@ import type { NextPage } from 'next'
 import { useState, useEffect } from 'react'
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import { motion } from 'framer-motion'
+import { PushToTalkButton, BigTranscript, ErrorPanel } from "@speechly/react-ui"
+import { useSpeechContext } from "@speechly/react-client"
 import { CountCard, Variants } from '../components/CountCard'
 import { UserCard } from '../components/UserCard'
 import { Filters } from '../components/Filters'
@@ -24,6 +26,7 @@ export interface UserData {
 
 
 const Home: NextPage = () => {
+  const { segment } = useSpeechContext()
   const [totalEmployee, setTotalEmployee] = useState<number>(0)
   const [vaccinated, setVaccinated] = useState<number>(0)
   const [unvaccinated, setUnVaccinated] = useState<number>(0)
@@ -43,8 +46,22 @@ const Home: NextPage = () => {
     setUnVaccinated(notVaxxed)
   }, [allUsers])
 
+  useEffect(() => {
+    if (segment) {
+      if(segment.intent.intent === "all") setActiveFilter(ActiveState.ALL)
+      if(segment.intent.intent === "vaccinated") setActiveFilter(ActiveState.VACCINATED)
+      if(segment.intent.intent === "unvaccinated") setActiveFilter(ActiveState.UNVACCINATED)
+      if(segment.intent.intent === "newUser") setOpenBottomSheet(true)
+      if(segment.intent.intent === "removeForm") dismissBottomSheet()
+    }
+  }, [segment])
+
   return (
     <>
+      <BigTranscript placement="top"/>
+      <PushToTalkButton placement="bottom" captureKey=" "/>
+      <ErrorPanel placement="bottom"/>
+
       <main className='flex justify-center'>
         <div className='w-full min-h-[100vh] lg:w-[35rem] p-4 bg-gray-100'>
           <section>

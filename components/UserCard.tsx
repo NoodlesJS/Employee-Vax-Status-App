@@ -10,12 +10,12 @@ interface UserCardProps {
 
 export const UserCard = ({user} : UserCardProps) => {
   const firstLetter = user.name.charAt(0)
-  const colorChoices = ['bg-red-700', 'bg-blue-900', 'bg-orange-700', 'bg-purple-700', 'bg-green-800', 'bg-pink-800']
-  const randomColor = colorChoices[Math.floor(Math.random() * colorChoices.length)]
+  // const colorChoices = ['bg-red-700', 'bg-blue-900', 'bg-orange-700', 'bg-purple-700', 'bg-green-800', 'bg-pink-800']
+  // const randomColor = colorChoices[Math.floor(Math.random() * colorChoices.length)]
 
   return (
     <motion.div layout className="flex items-center mt-2 px-4 py-2 bg-white rounded-md shadow-lg">
-      <div className={`flex justify-center items-center h-16 w-16 rounded-full ${randomColor}`}>
+      <div className={`flex justify-center items-center h-16 w-16 rounded-full bg-blue-900`}>
         <p className="text-white font-3xl">{firstLetter}</p>
       </div>
       <div className="ml-4">
